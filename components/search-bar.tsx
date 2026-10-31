@@ -45,9 +45,11 @@ function validDate(value: string | undefined, fallback: Date) {
 export function SearchBar({
   initial = {},
   compact = false,
+  expanded = false,
 }: {
   initial?: SearchValues;
   compact?: boolean;
+  expanded?: boolean;
 }) {
   const router = useRouter();
   const id = useId();
@@ -103,6 +105,7 @@ export function SearchBar({
       onSubmit={search}
       className={cn(
         "search-form",
+        expanded && "search-form-expanded",
         compact && "border border-border shadow-none",
       )}
       aria-label="Hotel search"

@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Compass,
-  MapPin,
   Mountain,
   Palmtree,
   SearchCheck,
@@ -85,39 +84,34 @@ export function HomePage() {
       <SiteHeader />
       <main id="main-content">
         <section className="hero-shell" aria-labelledby="hero-title">
-          <img
-            src="/images/coast-hero.png"
-            alt="Infinity pool above the sunlit Mediterranean coast"
-            className="hero-image"
-            fetchPriority="high"
-          />
-          <div className="hero-shade" />
+          <div className="hero-backdrop" aria-hidden="true">
+            <img
+              src="/images/coast-hero.png"
+              alt=""
+              className="hero-image"
+              fetchPriority="high"
+            />
+            <div className="hero-shade" />
+          </div>
           <div className="hero-content">
-            <p className="hero-eyebrow">
-              A WORLD OF PLACES. ONE THAT FEELS LIKE YOU.
-            </p>
             <h1 id="hero-title" className="hero-title">
-              Somewhere good.
-              <br />
-              Something unforgettable.
+              Find your next happy place.
             </h1>
             <p className="hero-subtitle">
-              Find stays worth coming back to.
-              <br className="sm:hidden" /> At prices worth getting away for.
+              Great stays. Better prices. A little more to look forward to.
             </p>
             <div className="hero-search">
-              <SearchBar />
+              <div className="hero-search-heading">
+                <span><Building2 aria-hidden="true" /> Hotels & apartments</span>
+                <span className="hero-search-caption">Somewhere good starts here.</span>
+              </div>
+              <SearchBar expanded />
             </div>
-            <p className="mt-4 flex items-center justify-center gap-1.5 text-[10px] text-white/90">
-              <BadgeCheck className="size-3.5" />
+            <p className="hero-reassurance">
+              <BadgeCheck aria-hidden="true" />
               No hidden fees. Just room for better plans.
             </p>
           </div>
-          <div className="hero-location">
-            <MapPin className="size-3.5" />
-            Amalfi Coast, Italy
-          </div>
-          <span className="hero-note">Where will your next story begin? ↗</span>
         </section>
         <section
           className="page-container grid grid-cols-1 gap-5 border-b border-border py-7 sm:grid-cols-3 sm:gap-8 sm:py-8"
