@@ -165,6 +165,45 @@
   gap: 23px;
   font-size: 13px;
 }
+.travel-navigation {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--border);
+}
+.travel-navigation-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: max-content;
+  min-width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.travel-service {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  white-space: nowrap;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 500;
+}
+.travel-service > svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.7;
+}
+.travel-service:disabled {
+  cursor: not-allowed;
+}
+.travel-service-current {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  font-weight: 650;
+}
 .hero-shell {
   position: relative;
   isolation: isolate;

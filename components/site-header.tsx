@@ -5,10 +5,17 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   ArrowUpRight,
+  BedDouble,
+  CarFront,
   Check,
   ChevronDown,
   Heart,
   LifeBuoy,
+  Luggage,
+  Plane,
+  ShieldCheck,
+  Ship,
+  Smartphone,
 } from "lucide-react";
 import {
   Dialog,
@@ -17,6 +24,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { hotels, hotelUrl, money } from "@/lib/demo-data";
@@ -110,6 +118,32 @@ export function SiteHeader() {
           </Button>
         </div>
       </header>
+      <nav className="page-container travel-navigation" aria-label="Travel services">
+        <ul className="travel-navigation-list">
+          <li>
+            <Link href="/" className="travel-service travel-service-current" aria-current={pathname === "/" ? "page" : undefined}>
+              <BedDouble aria-hidden="true" />
+              Hotels
+            </Link>
+          </li>
+          {[
+            { label: "Car rental", icon: CarFront },
+            { label: "Insurance", icon: ShieldCheck },
+            { label: "eSIM", icon: Smartphone },
+            { label: "Flights", icon: Plane },
+            { label: "Cruises", icon: Ship },
+            { label: "Package tours", icon: Luggage },
+          ].map(({ label, icon: Icon }) => (
+            <li key={label}>
+              <button type="button" className="travel-service" disabled aria-label={`${label} — coming soon`}>
+                <Icon aria-hidden="true" />
+                {label}
+                <Badge variant="secondary">Soon</Badge>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
       <Dialog
         open={modal !== null}
         onOpenChange={(open) => {
