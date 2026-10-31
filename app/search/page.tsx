@@ -3,9 +3,9 @@ import { SearchResults } from "@/components/search-results";
 import { normalizeSearchParams } from "@/lib/search-params";
 
 export const metadata: Metadata = {
-  title: "Найдите своё место — поиск отелей | место",
+  title: "Find your kind of stay — Hotel search | Ogizu",
   description:
-    "Подберите отель по настроению, бюджету и вашим планам. Удобные фильтры и сравнение вариантов.",
+    "Discover hotels to match your mood, budget, and plans. Filter your favorites and compare places with Ogizu.",
 };
 
 export default async function SearchPage({

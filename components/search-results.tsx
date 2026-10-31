@@ -38,18 +38,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { hotels, hotelUrl, money, type Hotel } from "@/lib/demo-data";
+import {
+  hotels,
+  hotelUrl,
+  money,
+  searchUrl,
+  type Hotel,
+} from "@/lib/demo-data";
 import { nightWord, searchQuery, stayDetails } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
 
 const sorts = [
-  { value: "recommended", label: "Сначала рекомендуемые" },
-  { value: "price", label: "Сначала дешевле" },
-  { value: "rating", label: "По оценке гостей" },
+  { value: "recommended", label: "Our recommendations" },
+  { value: "price", label: "Price: low to high" },
+  { value: "rating", label: "Guest rating" },
 ];
 
 export function SearchResults({ initial }: { initial: SearchValues }) {
-  const destination = initial.destination || "Бали";
+  const destination = initial.destination || "Bali";
   const [maxPrice, setMaxPrice] = useState(30000);
   const [breakfast, setBreakfast] = useState(false);
   const [cancellation, setCancellation] = useState(false);
@@ -63,7 +69,7 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
     () =>
       hotels.filter(
         (h) =>
-          destination === "Все направления" ||
+          destination === "All destinations" ||
           h.destination.toLowerCase().includes(destination.toLowerCase()) ||
           h.name.toLowerCase().includes(destination.toLowerCase()),
       ),
@@ -77,15 +83,14 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
             h.price <= maxPrice &&
             (!breakfast || h.breakfast) &&
             (!cancellation || h.cancellation) &&
-            (!pool || h.amenities.includes("Бассейн")) &&
+            (!pool || h.amenities.includes("Pool")) &&
             (!stars.length || stars.includes(h.stars)),
         )
         .sort((a, b) =>
           sort === "price"
             ? a.price - b.price
             : sort === "rating"
-              ? Number(b.score.replace(",", ".")) -
-                Number(a.score.replace(",", "."))
+              ? Number(b.score) - Number(a.score)
               : Number(Boolean(b.tag)) - Number(Boolean(a.tag)),
         ),
     [baseHotels, maxPrice, breakfast, cancellation, pool, stars, sort],
@@ -133,45 +138,45 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
         </div>
         <div className="page-container pb-12 pt-6">
           <nav
-            aria-label="Хлебные крошки"
+            aria-label="Breadcrumb"
             className="mb-7 flex items-center gap-2 text-[11px] text-muted-foreground"
           >
-            <Link href="/">Главная</Link>
+            <Link href="/">Home</Link>
             <ChevronRight className="size-3" />
-            <span aria-current="page">Отели · {destination}</span>
+            <span aria-current="page">Hotels · {destination}</span>
           </nav>
           <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
               <div className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-[1.6px] text-muted-foreground">
                 <Sparkles className="size-3" />
-                ПУТЕШЕСТВИЕ УЖЕ БЛИЗКО
+                YOUR NEXT CHAPTER IS CLOSE
               </div>
               <h1 className="section-title">
-                {destination === "Все направления"
-                  ? "Мир полон хороших мест"
-                  : `${destination}: найдите своё место`}
+                {destination === "All destinations"
+                  ? "A world of good places"
+                  : `${destination}: find your kind of stay`}
               </h1>
               <p className="section-subtitle">
-                {baseHotels.length} вариантов в демонстрационной подборке ·{" "}
-                {stay.nights} {nightWord(stay.nights)} ·{" "}
-                {stay.adults + stay.children} гостя
+                {baseHotels.length} sample stays · {stay.nights}{" "}
+                {nightWord(stay.nights)} · {stay.adults + stay.children}{" "}
+                {stay.adults + stay.children === 1 ? "guest" : "guests"}
               </p>
             </div>
             <Link href="/#destinations" className="text-link">
               <ArrowLeft />
-              Другие направления
+              More destinations
             </Link>
           </div>
           <div className="results-layout">
-            <aside className="results-sidebar" aria-label="Фильтры отелей">
+            <aside className="results-sidebar" aria-label="Hotel filters">
               <div className="sticky top-6">
                 <HotelFilters prefix="desktop" {...filterProps} />
               </div>
             </aside>
-            <section aria-label="Результаты поиска" className="min-w-0">
+            <section aria-label="Search results" className="min-w-0">
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <p className="text-xs text-muted-foreground" aria-live="polite">
-                  Найдено:{" "}
+                  Stays found:{" "}
                   <span className="font-semibold text-foreground">
                     {results.length}
                   </span>
@@ -184,17 +189,14 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
                     aria-expanded={filtersOpen}
                   >
                     <SlidersHorizontal data-icon="inline-start" />
-                    Фильтры{filterCount > 0 && ` (${filterCount})`}
+                    Filters{filterCount > 0 && ` (${filterCount})`}
                   </Button>
                   <Select
                     value={sort}
                     onValueChange={(value) => value && setSort(value)}
                     items={sorts}
                   >
-                    <SelectTrigger
-                      aria-label="Сортировка отелей"
-                      className="h-9"
-                    >
+                    <SelectTrigger aria-label="Sort hotels" className="h-9">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -212,16 +214,16 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
               {filterCount > 0 && (
                 <div className="mb-5 flex flex-wrap gap-2">
                   {[
-                    [breakfast, "Завтрак", () => setBreakfast(false)],
+                    [breakfast, "Breakfast", () => setBreakfast(false)],
                     [
                       cancellation,
-                      "Бесплатная отмена",
+                      "Free cancellation",
                       () => setCancellation(false),
                     ],
-                    [pool, "Бассейн", () => setPool(false)],
+                    [pool, "Pool", () => setPool(false)],
                     [
                       maxPrice < 30000,
-                      `До ${money(maxPrice)} ₽`,
+                      `Up to ${money(maxPrice)} ₽`,
                       () => setMaxPrice(30000),
                     ],
                   ].map(([active, label, remove], i) =>
@@ -230,6 +232,7 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
                         key={i}
                         className="flex items-center gap-2 rounded-full bg-secondary px-3 py-1.5 text-[10px]"
                         onClick={remove as () => void}
+                        aria-label={`Remove filter: ${label}`}
                       >
                         {label as string}
                         <X className="size-3" />
@@ -253,31 +256,31 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
                 <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border px-6 py-20 text-center">
                   <SearchX className="size-10 stroke-1 text-muted-foreground" />
                   <h2 className="text-xl font-medium">
-                    Пока не нашли такое место
+                    No matching places just yet
                   </h2>
                   <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
                     {baseHotels.length
-                      ? "Попробуйте увеличить бюджет или убрать несколько фильтров."
-                      : "В прототипе есть отели на Бали, в Сочи, Стамбуле, Дубае, Санкт-Петербурге и Архызе."}
+                      ? "Try a little more room in your budget or remove a few filters."
+                      : "This prototype includes hotels in Bali, Sochi, Istanbul, Dubai, St. Petersburg, and Arkhyz."}
                   </p>
                   {baseHotels.length ? (
                     <Button className="mt-2 h-10 px-5" onClick={reset}>
-                      Сбросить фильтры
+                      Reset filters
                     </Button>
                   ) : (
                     <Link
-                      href="/search?destination=Все%20направления"
+                      href={searchUrl("All destinations")}
                       className={buttonVariants({ size: "lg" })}
                     >
-                      Посмотреть все направления
+                      Explore all destinations
                     </Link>
                   )}
                 </div>
               )}
               <p className="mt-7 text-center text-[10px] leading-relaxed text-muted-foreground">
-                Цены за номер, включая демонстрационные налоги и сборы.
+                Prices are per room and include illustrative taxes and fees.
                 <br />
-                Это дизайн-прототип. Доступность номеров не проверяется.
+                This is a design prototype. Room availability is not checked.
               </p>
             </section>
           </div>
@@ -287,14 +290,14 @@ export function SearchResults({ initial }: { initial: SearchValues }) {
       <Dialog open={filtersOpen} onOpenChange={setFiltersOpen}>
         <DialogContent className="max-h-[90vh] overflow-y-auto p-4 sm:max-w-md">
           <DialogHeader className="px-1 pt-1">
-            <DialogTitle>Настройте свой отдых</DialogTitle>
+            <DialogTitle>Make it your kind of getaway</DialogTitle>
             <DialogDescription>
-              Оставьте только то, что важно для вас.
+              Keep the things that matter to you.
             </DialogDescription>
           </DialogHeader>
           <HotelFilters prefix="mobile" {...filterProps} />
           <Button className="h-11 w-full" onClick={() => setFiltersOpen(false)}>
-            Показать варианты: {results.length}
+            Show {results.length} stays
           </Button>
         </DialogContent>
       </Dialog>
@@ -318,7 +321,7 @@ function ResultCard({
       <div className="result-photo">
         <Link
           href={hotelUrl(hotel, params)}
-          aria-label={`Открыть ${hotel.name}`}
+          aria-label={`Explore ${hotel.name}`}
         >
           <img src={hotel.image} alt={hotel.name} loading="lazy" />
         </Link>
@@ -335,7 +338,7 @@ function ResultCard({
       <div className="flex min-w-0 flex-col p-5">
         <div
           className="mb-1.5 flex items-center gap-0.5"
-          aria-label={`${hotel.stars} звёзд`}
+          aria-label={`${hotel.stars} stars`}
         >
           {Array.from({ length: hotel.stars }, (_, i) => (
             <Star key={i} className="size-2.5 fill-current text-forest" />
@@ -353,9 +356,9 @@ function ResultCard({
         </p>
         <div className="mt-4 flex items-center gap-2">
           <span className="rating-score">{hotel.score}</span>
-          <span className="text-[10px] font-medium">Превосходно</span>
+          <span className="text-[10px] font-medium">Exceptional</span>
           <span className="text-[10px] text-muted-foreground">
-            {money(hotel.reviews)} отзывов
+            {money(hotel.reviews)} reviews
           </span>
         </div>
         <div className="my-4 flex flex-wrap gap-x-3 gap-y-2 text-[10px] text-muted-foreground">
@@ -363,23 +366,23 @@ function ResultCard({
             <Wifi className="size-3" />
             Wi-Fi
           </span>
-          {hotel.amenities.includes("Бассейн") && (
+          {hotel.amenities.includes("Pool") && (
             <span className="flex items-center gap-1">
               <Waves className="size-3" />
-              Бассейн
+              Pool
             </span>
           )}
           {hotel.breakfast && (
             <span className="flex items-center gap-1">
               <Coffee className="size-3" />
-              Завтрак
+              Breakfast
             </span>
           )}
         </div>
         {hotel.cancellation && (
           <p className="mt-auto flex items-center gap-1 text-[10px] text-forest">
             <Check className="size-3" />
-            Бесплатная отмена
+            Free cancellation
           </p>
         )}
       </div>
@@ -393,16 +396,16 @@ function ResultCard({
           <p className="whitespace-nowrap text-xl font-semibold tracking-tight">
             {money(hotel.price)} ₽
             <span className="ml-1 text-[10px] font-normal text-muted-foreground">
-              / ночь
+              / night
             </span>
           </p>
           <p className="mt-1.5 text-[10px] text-muted-foreground">
-            {money(hotel.price * nights * rooms)} ₽ за {nights}{" "}
+            {money(hotel.price * nights * rooms)} ₽ for {nights}{" "}
             {nightWord(nights)}
-            {rooms > 1 && ` · ${rooms} номера`}
+            {rooms > 1 && ` · ${rooms} rooms`}
           </p>
           <p className="mt-1 text-[9px] text-muted-foreground">
-            Налоги и сборы включены
+            Taxes and fees included
           </p>
         </div>
         <Link
@@ -412,7 +415,7 @@ function ResultCard({
             "mt-3 h-10 w-full gap-2 px-4 sm:w-auto lg:w-full",
           )}
         >
-          Выбрать номер
+          Choose a room
           <ArrowRight className="size-3.5" />
         </Link>
       </div>

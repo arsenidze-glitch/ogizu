@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Heart,
   LifeBuoy,
-  Sparkles,
 } from "lucide-react";
 import {
   Dialog,
@@ -25,9 +24,24 @@ import { useFavorites } from "@/lib/use-favorites";
 
 export function Brand() {
   return (
-    <Link href="/" className="brand" aria-label="место — на главную">
-      место
-      <Sparkles className="brand-flower" aria-hidden="true" />
+    <Link href="/" className="brand" aria-label="Ogizu — home">
+      <svg
+        className="brand-mark"
+        viewBox="0 0 40 40"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle cx="20" cy="20" r="15" stroke="var(--foreground)" strokeWidth="5.5" />
+        <path
+          d="M7 24H33"
+          stroke="currentColor"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+      </svg>
+      <span>
+        ogizu<span className="brand-period">.</span>
+      </span>
     </Link>
   );
 }
@@ -43,25 +57,25 @@ export function SiteHeader() {
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:p-3"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:p-3 focus:text-primary-foreground"
       >
-        К содержимому
+        Skip to content
       </a>
       <header className="page-container site-header">
         <Brand />
-        <nav className="header-links" aria-label="Главная навигация">
+        <nav className="header-links" aria-label="Main navigation">
           <Link
             href="/"
-            className="header-link active"
+            className={pathname === "/" ? "header-link active" : "header-link"}
             aria-current={pathname === "/" ? "page" : undefined}
           >
-            Найти отель
+            Find a stay
           </Link>
           <Link href="/#destinations" className="header-link">
-            Куда поехать
+            Destinations
           </Link>
           <Link href="/#journal" className="header-link">
-            Вдохновение
+            The journal
             <ArrowUpRight className="ml-1.5 size-3" />
           </Link>
         </nav>
@@ -69,9 +83,9 @@ export function SiteHeader() {
           <button
             className="header-currency flex items-center gap-1.5"
             onClick={() => setModal("locale")}
-            aria-label="Язык и валюта"
+            aria-label="Language and currency"
           >
-            RU <span className="mx-1 text-border">/</span> ₽{" "}
+            EN <span className="mx-1 text-border">/</span> ₽
             <ChevronDown className="ml-1 size-3" />
           </button>
           <button
@@ -79,7 +93,7 @@ export function SiteHeader() {
             onClick={() => setModal("help")}
           >
             <LifeBuoy className="size-4" />
-            Поддержка
+            Help
           </button>
           <Button
             variant="outline"
@@ -87,9 +101,9 @@ export function SiteHeader() {
             onClick={() => setModal("favorites")}
           >
             <Heart data-icon="inline-start" />
-            Избранное
+            Saved stays
             {favorites.length > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[10px]">
+              <span className="flex size-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
                 {favorites.length}
               </span>
             )}
@@ -106,17 +120,17 @@ export function SiteHeader() {
           <DialogHeader>
             <DialogTitle>
               {modal === "favorites"
-                ? "Ваша коллекция мест"
+                ? "Your collection of places"
                 : modal === "locale"
-                  ? "Язык и валюта"
-                  : "Мы рядом"}
+                  ? "Language and currency"
+                  : "A little help, right here"}
             </DialogTitle>
             <DialogDescription>
               {modal === "favorites"
-                ? "Собирайте места, в которых хочется оказаться. В прототипе коллекция хранится до перезагрузки страницы."
+                ? "Keep the places you love close. In this prototype, your collection resets when you reload the page."
                 : modal === "locale"
-                  ? "Настройки этого дизайн-прототипа."
-                  : "Ответы на вопросы о работе портала."}
+                  ? "Current settings for this design prototype."
+                  : "Everything you need to know about this portal."}
             </DialogDescription>
           </DialogHeader>
           {modal === "favorites" &&
@@ -142,13 +156,13 @@ export function SiteHeader() {
                       <p className="text-xs text-muted-foreground">
                         {h.destination}
                       </p>
-                      <p className="text-sm">от {money(h.price)} ₽</p>
+                      <p className="text-sm">From {money(h.price)} ₽</p>
                     </div>
                     <Button
                       size="icon"
                       variant="ghost"
                       onClick={() => toggle(h.id)}
-                      aria-label={`Убрать ${h.name} из избранного`}
+                      aria-label={`Remove ${h.name} from saved stays`}
                     >
                       <Heart className="fill-current" />
                     </Button>
@@ -158,31 +172,31 @@ export function SiteHeader() {
             ) : (
               <div className="flex flex-col items-center gap-4 py-9 text-center">
                 <Heart className="size-10 stroke-1 text-muted-foreground" />
-                <p>Здесь будут ваши любимые отели</p>
+                <p>Your next favorite place belongs here</p>
                 <p className="max-w-64 text-xs leading-relaxed text-muted-foreground">
-                  Нажмите на сердечко на карточке отеля — и место попадёт в вашу
-                  коллекцию.
+                  Tap the heart on any hotel to add it to your collection.
                 </p>
                 <Button
                   className="mt-2 h-10 px-5"
                   onClick={() => setModal(null)}
                 >
-                  Отправиться на поиски
+                  Find your next stay
                 </Button>
               </div>
             ))}
           {modal === "locale" && (
             <div className="flex flex-col gap-4 py-3">
               <div className="flex items-center justify-between rounded-xl bg-muted p-4">
-                <span>Русский</span>
+                <span>English</span>
                 <Check className="size-4" />
               </div>
               <div className="flex items-center justify-between rounded-xl bg-muted p-4">
-                <span>Российский рубль · ₽</span>
+                <span>Russian ruble · RUB · ₽</span>
                 <Check className="size-4" />
               </div>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                Другие языки и валюты можно добавить на следующем этапе.
+                Demo prices are shown in RUB. More languages and currencies can
+                be added in a future release.
               </p>
             </div>
           )}
@@ -190,16 +204,16 @@ export function SiteHeader() {
             <div className="flex flex-col gap-5 py-3">
               {[
                 [
-                  "Можно забронировать отель?",
-                  "Сейчас это интерактивный дизайн-прототип: можно искать отели, применять фильтры и выбирать номера. Реальное бронирование и оплата не подключены.",
+                  "Can I book a hotel?",
+                  "This is an interactive design prototype. You can search hotels, apply filters, and choose rooms. Live booking and payments are not connected.",
                 ],
                 [
-                  "Откуда берутся цены?",
-                  "Каталог, оценки, отзывы и цены демонстрационные. Они показывают, как будет работать сервис, и не являются публичной офертой.",
+                  "Where do the prices come from?",
+                  "The catalog, ratings, reviews, and prices are sample content. They illustrate how the service will work and are not live offers.",
                 ],
                 [
-                  "Как работает избранное?",
-                  "Нажимайте на сердечко на карточке отеля. Подборка доступна во время просмотра и сбросится при перезагрузке.",
+                  "How do saved stays work?",
+                  "Tap the heart on a hotel card. Your collection stays available while you browse and resets when you reload the page.",
                 ],
               ].map(([q, a]) => (
                 <div key={q}>
@@ -226,34 +240,35 @@ export function SiteFooter() {
         <div className="flex items-center gap-6">
           <Brand />
           <span className="text-[11px] leading-relaxed text-muted-foreground">
-            Мир большой.
+            A world of places.
             <br />
-            Ваше место найдётся.
+            One that feels like you.
           </span>
         </div>
-        <nav className="footer-links" aria-label="Навигация в подвале">
-          <button onClick={() => setAboutOpen(true)}>О проекте</button>
-          <Link href="/#destinations">Направления</Link>
-          <Link href="/#journal">Журнал путешествий</Link>
+        <nav className="footer-links" aria-label="Footer navigation">
+          <button onClick={() => setAboutOpen(true)}>About Ogizu</button>
+          <Link href="/#destinations">Destinations</Link>
+          <Link href="/#journal">Travel journal</Link>
         </nav>
       </div>
       <div className="flex flex-col justify-between gap-3 text-[10px] leading-relaxed text-muted-foreground sm:flex-row">
-        <p>© 2026 место. Сделано для тех, кто любит открывать новое.</p>
-        <p>Дизайн-прототип · отели, цены и отзывы демонстрационные</p>
+        <p>© 2026 ogizu.com. For the beautifully curious.</p>
+        <p>Design prototype · sample hotels, prices, and reviews</p>
       </div>
       <Dialog open={aboutOpen} onOpenChange={setAboutOpen}>
         <DialogContent className="p-6">
           <DialogHeader>
-            <DialogTitle>Каждому путешествию — своё место</DialogTitle>
+            <DialogTitle>A place for every kind of journey</DialogTitle>
             <DialogDescription>
-              «место» — концепция современного портала поиска отелей. Здесь
-              привычные инструменты бронирования встречаются с вдохновением для
-              новых путешествий.
+              Ogizu is a fresh take on finding your next stay. Thoughtful hotel
+              search meets a little inspiration for the road ahead, at
+              ogizu.com.
             </DialogDescription>
           </DialogHeader>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Это интерактивный дизайн-прототип. Все цены, рейтинги, отзывы и
-            предложения демонстрационные. Данные для бронирования не собираются.
+            This is an interactive design prototype. All prices, ratings,
+            reviews, and offers are illustrative. No booking information is
+            collected.
           </p>
         </DialogContent>
       </Dialog>

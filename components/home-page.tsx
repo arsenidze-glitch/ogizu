@@ -38,33 +38,33 @@ import {
 } from "@/lib/demo-data";
 
 const moods = [
-  { value: "all", label: "Сейчас в тренде", icon: Sparkles },
-  { value: "sea", label: "К морю", icon: Palmtree },
-  { value: "city", label: "В большой город", icon: Building2 },
-  { value: "nature", label: "Ближе к природе", icon: Mountain },
+  { value: "all", label: "Trending now", icon: Sparkles },
+  { value: "sea", label: "By the sea", icon: Palmtree },
+  { value: "city", label: "City escapes", icon: Building2 },
+  { value: "nature", label: "Into the wild", icon: Mountain },
 ];
 
 const stories = [
   {
-    title: "Бали без спешки: остров, который умеет замедлять",
-    category: "МЕСТО ВДОХНОВЕНИЯ",
+    title: "Bali, slowly: an island that knows how to pause",
+    category: "A LITTLE INSPIRATION",
     image: "/images/bali-resort.png",
-    destination: "Бали",
-    text: "Начните утро с прогулки по рисовым террасам Убуда. Оставьте день для маленьких галерей, местного кофе и бассейна с видом на джунгли. А к вечеру отправляйтесь к океану: на Бали закаты — отдельный вид искусства.",
+    destination: "Bali",
+    text: "Start your morning among the rice terraces of Ubud. Leave the afternoon for little galleries, local coffee, and a pool overlooking the jungle. Then make your way to the ocean: in Bali, sunsets are an art form all their own.",
   },
   {
-    title: "Стамбул: между двумя берегами и тысячей историй",
-    category: "ГОРОД В ДЕТАЛЯХ",
+    title: "Istanbul: two shores, a thousand stories",
+    category: "THE CITY, UP CLOSE",
     image: destinations[1].image,
-    destination: "Стамбул",
-    text: "Переезжайте Босфор на пароме, пробуйте симит на набережной и сворачивайте с шумных проспектов в маленькие переулки. Лучший способ познакомиться со Стамбулом — позволить городу самому предложить маршрут.",
+    destination: "Istanbul",
+    text: "Cross the Bosphorus by ferry, try a warm simit by the waterfront, and wander off the busy avenues into quiet side streets. The best way to discover Istanbul is to let the city choose the route.",
   },
   {
-    title: "Маленький отпуск: когда на море всего три дня",
-    category: "ИДЕЯ ДЛЯ ВЫХОДНЫХ",
+    title: "A little escape: three days by the sea",
+    category: "YOUR WEEKEND, REIMAGINED",
     image: destinations[2].image,
-    destination: "Сочи",
-    text: "Для перезагрузки не всегда нужна большая поездка. Забронируйте отель у моря, оставьте ноутбук дома и разрешите себе ничего не планировать. Завтрак на террасе, прогулка по набережной и морской воздух сделают остальное.",
+    destination: "Sochi",
+    text: "A proper reset does not always need a long journey. Find a hotel by the sea, leave your laptop at home, and give yourself permission to make no plans. Breakfast on the terrace, a walk along the promenade, and a little sea air will do the rest.",
   },
 ];
 
@@ -80,7 +80,6 @@ export function HomePage() {
     ...featuredHotels.slice(offset),
     ...featuredHotels.slice(0, offset),
   ];
-
   return (
     <>
       <SiteHeader />
@@ -88,58 +87,57 @@ export function HomePage() {
         <section className="hero-shell" aria-labelledby="hero-title">
           <img
             src="/images/coast-hero.png"
-            alt="Панорамный бассейн и солнечное побережье Средиземного моря"
+            alt="Infinity pool above the sunlit Mediterranean coast"
             className="hero-image"
             fetchPriority="high"
           />
           <div className="hero-shade" />
           <div className="hero-content">
-            <p className="hero-eyebrow">МИР БОЛЬШОЙ. ВАШЕ МЕСТО НАЙДЁТСЯ.</p>
+            <p className="hero-eyebrow">
+              A WORLD OF PLACES. ONE THAT FEELS LIKE YOU.
+            </p>
             <h1 id="hero-title" className="hero-title">
-              Хорошее место.
+              Somewhere good.
               <br />
-              Для ваших историй.
+              Something unforgettable.
             </h1>
             <p className="hero-subtitle">
-              Находите отели, в которые хочется вернуться.
-              <br className="sm:hidden" /> По ценам, с которыми хочется уехать.
+              Find stays worth coming back to.
+              <br className="sm:hidden" /> At prices worth getting away for.
             </p>
             <div className="hero-search">
               <SearchBar />
             </div>
             <p className="mt-4 flex items-center justify-center gap-1.5 text-[10px] text-white/90">
               <BadgeCheck className="size-3.5" />
-              Без скрытых платежей. С заботой о ваших планах.
+              No hidden fees. Just room for better plans.
             </p>
           </div>
           <div className="hero-location">
             <MapPin className="size-3.5" />
-            Амальфитанское побережье, Италия
+            Amalfi Coast, Italy
           </div>
-          <span className="hero-note">
-            А где начнётся ваша следующая история? ↗
-          </span>
+          <span className="hero-note">Where will your next story begin? ↗</span>
         </section>
-
         <section
           className="page-container grid grid-cols-1 gap-5 border-b border-border py-7 sm:grid-cols-3 sm:gap-8 sm:py-8"
-          aria-label="Почему место"
+          aria-label="Why Ogizu"
         >
           {[
             {
               icon: SearchCheck,
-              title: "Меньше поиска, больше выбора",
-              text: "Отели и апартаменты в одном месте",
+              title: "Less searching. More discovering.",
+              text: "Hotels and apartments, all in one place",
             },
             {
               icon: BadgeCheck,
-              title: "Всё честно с первого взгляда",
-              text: "Понятные цены и никаких сюрпризов",
+              title: "Good prices. No surprises.",
+              text: "Clear from the very first look",
             },
             {
               icon: Compass,
-              title: "Не просто отель — ваше место",
-              text: "Отбираем то, что запомнится",
+              title: "Not just a stay. Your kind of place.",
+              text: "Thoughtfully picked, fondly remembered",
             },
           ].map(({ icon: Icon, title, text }) => (
             <div
@@ -156,24 +154,23 @@ export function HomePage() {
             </div>
           ))}
         </section>
-
         <section
           id="destinations"
           className="page-container pb-14 pt-12 sm:pb-16 sm:pt-14"
         >
           <div className="section-topline">
             <div>
-              <h2 className="section-title">Куда хочется прямо сейчас?</h2>
+              <h2 className="section-title">Where feels right, right now?</h2>
               <p className="section-subtitle">
-                За солнцем, новыми вкусами или просто сменить картинку.
+                Chase the sun, find a new flavor, or simply change the scenery.
               </p>
             </div>
             <Link
-              href="/search?destination=Все%20направления"
+              href={searchUrl("All destinations")}
               className="text-link"
-              aria-label="Все направления"
+              aria-label="All destinations"
             >
-              Все направления
+              All destinations
               <ArrowUpRight />
             </Link>
           </div>
@@ -186,7 +183,7 @@ export function HomePage() {
                 if (value.length) setMood(value[0]);
               }}
               className="mood-group"
-              aria-label="Настроение путешествия"
+              aria-label="Travel mood"
             >
               {moods.map(({ value, label, icon: Icon }) => (
                 <ToggleGroupItem
@@ -220,7 +217,7 @@ export function HomePage() {
                   <h3>{d.name}</h3>
                   <p>
                     {d.country}
-                    <span className="mx-1.5 opacity-50">·</span>от{" "}
+                    <span className="mx-1.5 opacity-50">·</span>from{" "}
                     {money(d.price)} ₽
                   </p>
                 </div>
@@ -228,7 +225,6 @@ export function HomePage() {
             ))}
           </div>
         </section>
-
         <section
           className="border-y border-border bg-secondary/35 py-12 sm:py-14"
           id="handpicked"
@@ -238,11 +234,11 @@ export function HomePage() {
               <div>
                 <div className="mb-3 flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[1.7px] text-forest">
                   <Sparkles className="size-3.5" />
-                  ОТОБРАНО С ЗАБОТОЙ
+                  THE OGIZU EDIT
                 </div>
-                <h2 className="section-title">Места, в которые влюбляются</h2>
+                <h2 className="section-title">Easy to love. Hard to leave.</h2>
                 <p className="section-subtitle">
-                  Тот самый вид. Та самая атмосфера. Тот самый отель.
+                  That view. That feeling. That one hotel.
                 </p>
               </div>
               <div className="flex gap-2">
@@ -250,7 +246,7 @@ export function HomePage() {
                   variant="outline"
                   size="icon"
                   className="rounded-full"
-                  aria-label="Предыдущие отели"
+                  aria-label="Previous hotels"
                   onClick={() => setOffset((offset + 3) % 4)}
                 >
                   <ChevronLeft />
@@ -259,7 +255,7 @@ export function HomePage() {
                   variant="outline"
                   size="icon"
                   className="rounded-full"
-                  aria-label="Следующие отели"
+                  aria-label="Next hotels"
                   onClick={() => setOffset((offset + 1) % 4)}
                 >
                   <ChevronRight />
@@ -273,55 +269,54 @@ export function HomePage() {
             </div>
           </div>
         </section>
-
         <section className="page-container py-14 sm:py-18">
           <div className="relative flex min-h-64 flex-col items-start justify-center gap-5 overflow-hidden rounded-2xl bg-forest px-7 py-10 text-white sm:px-12 md:flex-row md:items-center md:justify-between md:gap-12">
             <div className="relative max-w-lg">
               <Badge className="mb-4" variant="default">
-                <Sun data-icon="inline-start" />
-                Время для маленького побега
+                <Sun data-icon="inline-start" />A little escape is calling
               </Badge>
               <h2 className="text-3xl font-medium leading-tight tracking-[-1px] sm:text-[38px]">
-                Иногда нужно просто
+                Sometimes, all you need
                 <br />
-                сменить «где».
+                is a different somewhere.
               </h2>
               <p className="mt-4 max-w-sm text-xs leading-6 text-white/70">
-                На шум волн. На завтрак без спешки. На город, в котором вы ещё
-                не были. Найдите своё новое «здесь».
+                The sound of waves. A breakfast without a clock. A city you have
+                yet to meet. Find your new here.
               </p>
               <Link
-                href="/search?destination=Все%20направления"
-                className="mt-6 inline-flex items-center gap-2 text-xs font-medium text-primary"
+                href={searchUrl("All destinations")}
+                className="mt-6 inline-flex items-center gap-2 text-xs font-medium text-white underline decoration-white/40 underline-offset-4"
               >
-                Найти место для перезагрузки
+                Find a place to reset
                 <ArrowRight className="size-4" />
               </Link>
             </div>
             <div className="relative hidden w-[350px] shrink-0 md:block">
               <img
                 src="/images/bali-room.png"
-                alt="Уютный номер с видом на тропический сад"
+                alt="Inviting room overlooking a tropical garden"
                 className="h-52 w-full -rotate-3 rounded-xl object-cover"
                 loading="lazy"
               />
-              <span className="absolute -bottom-3 -left-5 rotate-[-7deg] rounded-sm bg-primary px-5 py-3 text-xs text-primary-foreground shadow-sm">
-                Планы на выходные: жить.
+              <span className="escape-note absolute -bottom-3 -left-5 rotate-[-7deg] rounded-sm px-5 py-3 text-xs shadow-sm">
+                Weekend plans: a little more living.
               </span>
             </div>
           </div>
         </section>
-
         <section className="page-container pb-12" id="journal">
           <div className="section-topline">
             <div>
-              <h2 className="section-title">Путешествие начинается с идеи</h2>
+              <h2 className="section-title">
+                Every journey starts with a little curiosity.
+              </h2>
               <p className="section-subtitle">
-                Истории и маршруты, после которых хочется собрать чемодан.
+                Stories, places, and the occasional reason to pack a bag.
               </p>
             </div>
             <span className="hidden text-xs text-muted-foreground sm:block">
-              Журнал место
+              The Ogizu journal
             </span>
           </div>
           <div className="mt-7 grid gap-7 sm:grid-cols-3">
@@ -346,7 +341,7 @@ export function HomePage() {
                   {s.title}
                 </h3>
                 <p className="mt-3 flex items-center gap-2 text-[11px] text-muted-foreground">
-                  Читать историю
+                  Read the story
                   <ArrowUpRight className="size-3.5" />
                 </p>
               </button>
@@ -380,7 +375,7 @@ export function HomePage() {
                 href={searchUrl(stories[story].destination)}
                 className="mt-2 inline-flex items-center gap-2 text-sm font-medium"
               >
-                Найти отель: {stories[story].destination}
+                Find a stay in {stories[story].destination}
                 <ArrowRight className="size-4" />
               </Link>
             </>

@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import type { DateRange } from "react-day-picker";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -74,9 +74,7 @@ export function SearchBar({
     `${d.name} ${d.country}`.toLowerCase().includes(query.toLowerCase()),
   );
   const dateLabel = (date?: Date) =>
-    date
-      ? format(date, "d MMM", { locale: ru }).replace(".", "")
-      : "Выберите дату";
+    date ? format(date, "d MMM", { locale: enUS }) : "Choose a date";
   const chooseDestination = (name: string) => {
     setDestination(name);
     setDestinationOpen(false);
@@ -90,7 +88,7 @@ export function SearchBar({
       return;
     }
     const params = new URLSearchParams({
-      destination: destination || "Бали",
+      destination: destination || "Bali",
       checkin: format(dates.from, "yyyy-MM-dd"),
       checkout: format(dates.to, "yyyy-MM-dd"),
       adults: String(adults),
@@ -107,20 +105,20 @@ export function SearchBar({
         "search-form",
         compact && "border border-border shadow-none",
       )}
-      aria-label="Поиск отелей"
+      aria-label="Hotel search"
     >
       <FieldGroup className="search-fields">
         <Field className="search-field destination-field">
           <Popover open={destinationOpen} onOpenChange={setDestinationOpen}>
             <PopoverTrigger
               className="search-trigger"
-              aria-label={`Направление: ${destination || "выберите город"}`}
+              aria-label={`Destination: ${destination || "choose a place"}`}
             >
               <MapPin aria-hidden="true" />
               <span className="min-w-0">
-                <span className="search-label">Куда едем?</span>
+                <span className="search-label">Where to?</span>
                 <span className="search-value truncate">
-                  {destination || "Город, регион или отель"}
+                  {destination || "City, region, or hotel"}
                 </span>
               </span>
             </PopoverTrigger>
@@ -129,14 +127,14 @@ export function SearchBar({
               className="w-[min(350px,calc(100vw-32px))] p-4"
               sideOffset={16}
             >
-              <PopoverTitle>Найдите своё место</PopoverTitle>
+              <PopoverTitle>Find your kind of somewhere</PopoverTitle>
               <label htmlFor={`${id}-destination`} className="sr-only">
-                Город или регион
+                City or region
               </label>
               <input
                 id={`${id}-destination`}
                 className="mt-2 w-full rounded-lg border bg-background px-3 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-                placeholder="Город или регион"
+                placeholder="City or region"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
@@ -148,7 +146,7 @@ export function SearchBar({
                 }}
               />
               <p className="mb-1 mt-3 text-[10px] uppercase tracking-widest text-muted-foreground">
-                {query ? "Направления" : "Сейчас в тренде"}
+                {query ? "Destinations" : "Trending now"}
               </p>
               {filtered.map((d) => (
                 <button
@@ -175,7 +173,7 @@ export function SearchBar({
                   className="rounded-lg bg-muted p-3 text-left text-sm"
                   onClick={() => chooseDestination(query)}
                 >
-                  Искать «{query}»
+                  Search for &ldquo;{query}&rdquo;
                 </button>
               )}
             </PopoverContent>
@@ -191,28 +189,30 @@ export function SearchBar({
           >
             <PopoverTrigger
               className="search-trigger"
-              aria-label="Выбрать даты поездки"
+              aria-label="Choose travel dates"
             >
               <CalendarDays aria-hidden="true" />
               <span className="date-columns">
                 <span>
-                  <span className="search-label">Заезд</span>
+                  <span className="search-label">Check-in</span>
                   <span className="search-value">
                     {dateLabel(dates?.from)}
                     <span className="ml-1 text-muted-foreground">
                       {dates?.from
-                        ? format(dates.from, "EEE", { locale: ru })
+                        ? format(dates.from, "EEE", { locale: enUS })
                         : ""}
                     </span>
                   </span>
                 </span>
                 <span className="date-divider" />
                 <span>
-                  <span className="search-label">Выезд</span>
+                  <span className="search-label">Check-out</span>
                   <span className="search-value">
                     {dateLabel(dates?.to)}
                     <span className="ml-1 text-muted-foreground">
-                      {dates?.to ? format(dates.to, "EEE", { locale: ru }) : ""}
+                      {dates?.to
+                        ? format(dates.to, "EEE", { locale: enUS })
+                        : ""}
                     </span>
                   </span>
                 </span>
@@ -223,11 +223,11 @@ export function SearchBar({
               sideOffset={16}
             >
               <PopoverTitle className="px-2 pt-1">
-                Когда отправимся?
+                When shall we go?
               </PopoverTitle>
               <Calendar
                 mode="range"
-                locale={ru}
+                locale={enUS}
                 selected={dates}
                 onDayClick={(day, modifiers) => {
                   if (modifiers.disabled) return;
@@ -251,7 +251,7 @@ export function SearchBar({
                 disabled={!dates?.from || !dates?.to}
                 onClick={() => setDateOpen(false)}
               >
-                Готово
+                Done
               </Button>
             </PopoverContent>
           </Popover>
@@ -260,20 +260,15 @@ export function SearchBar({
           <Popover open={guestOpen} onOpenChange={setGuestOpen}>
             <PopoverTrigger
               className="search-trigger"
-              aria-label="Количество гостей и номеров"
+              aria-label="Number of guests and rooms"
             >
               <Users aria-hidden="true" />
               <span className="flex-1">
-                <span className="search-label">Гости и номера</span>
+                <span className="search-label">Guests and rooms</span>
                 <span className="search-value">
                   {adults + children}{" "}
-                  {adults + children === 1
-                    ? "гость"
-                    : adults + children < 5
-                      ? "гостя"
-                      : "гостей"}{" "}
-                  · {rooms}{" "}
-                  {rooms === 1 ? "номер" : rooms < 5 ? "номера" : "номеров"}
+                  {adults + children === 1 ? "guest" : "guests"} · {rooms}{" "}
+                  {rooms === 1 ? "room" : "rooms"}
                 </span>
               </span>
               <ChevronDown className="!size-3" aria-hidden="true" />
@@ -283,27 +278,27 @@ export function SearchBar({
               align="end"
               sideOffset={16}
             >
-              <PopoverTitle>Кто едет?</PopoverTitle>
+              <PopoverTitle>Who is coming along?</PopoverTitle>
               <div className="my-3 flex flex-col gap-5">
                 <GuestCounter
-                  label="Взрослые"
-                  note="От 18 лет"
+                  label="Adults"
+                  note="Ages 18 and over"
                   value={adults}
                   onChange={setAdults}
                   min={1}
                   max={16}
                 />
                 <GuestCounter
-                  label="Дети"
-                  note="До 17 лет"
+                  label="Children"
+                  note="Ages 0–17"
                   value={children}
                   onChange={setChildren}
                   min={0}
                   max={8}
                 />
                 <GuestCounter
-                  label="Номера"
-                  note="Для вашего комфорта"
+                  label="Rooms"
+                  note="Space to feel at home"
                   value={rooms}
                   onChange={setRooms}
                   min={1}
@@ -315,14 +310,14 @@ export function SearchBar({
                 className="h-10 w-full"
                 onClick={() => setGuestOpen(false)}
               >
-                Готово
+                Done
               </Button>
             </PopoverContent>
           </Popover>
         </Field>
         <Button type="submit" className="search-submit">
           <Search data-icon="inline-start" />
-          Найти отель
+          Find a stay
         </Button>
       </FieldGroup>
     </form>
@@ -356,7 +351,7 @@ function GuestCounter({
           variant="outline"
           size="icon"
           disabled={value <= min}
-          aria-label={`Уменьшить: ${label}`}
+          aria-label={`Decrease ${label.toLowerCase()}`}
           onClick={() => onChange(value - 1)}
         >
           <Minus />
@@ -369,7 +364,7 @@ function GuestCounter({
           variant="outline"
           size="icon"
           disabled={value >= max}
-          aria-label={`Увеличить: ${label}`}
+          aria-label={`Increase ${label.toLowerCase()}`}
           onClick={() => onChange(value + 1)}
         >
           <Plus />

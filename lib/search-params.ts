@@ -44,8 +44,5 @@ export function searchQuery(values: SearchValues) {
 }
 
 export function nightWord(n: number) {
-  if (n % 10 === 1 && n % 100 !== 11) return "ночь";
-  if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100))
-    return "ночи";
-  return "ночей";
+  return n === 1 ? "night" : "nights";
 }

@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const hotel = hotels.find((h) => h.id === slug);
   return {
     title: hotel
-      ? `${hotel.name}, ${hotel.destination} — место`
-      : "Отель не найден — место",
+      ? `${hotel.name}, ${hotel.destination} — Ogizu`
+      : "Hotel not found — Ogizu",
     description: hotel?.description,
   };
 }

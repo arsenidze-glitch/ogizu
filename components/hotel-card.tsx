@@ -21,7 +21,7 @@ export function FavoriteButton({
       className={`favorite-button ${className}`}
       data-active={active}
       aria-pressed={active}
-      aria-label={`${active ? "Убрать" : "Добавить"} ${hotel.name} ${active ? "из избранного" : "в избранное"}`}
+      aria-label={`${active ? "Remove" : "Add"} ${hotel.name} ${active ? "from" : "to"} saved stays`}
       onClick={() => toggle(hotel.id)}
     >
       <Heart aria-hidden="true" />
@@ -33,10 +33,7 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
   return (
     <article className="hotel-card min-w-0">
       <div className="hotel-photo">
-        <Link
-          href={hotelUrl(hotel)}
-          aria-label={`Подробнее об отеле ${hotel.name}`}
-        >
+        <Link href={hotelUrl(hotel)} aria-label={`Explore ${hotel.name}`}>
           <img
             src={hotel.image}
             alt={`${hotel.name} — ${hotel.destination}`}
@@ -49,7 +46,7 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
             variant="secondary"
             className="absolute bottom-3 left-3 h-6 gap-1 rounded-md px-2"
           >
-            {hotel.tag === "Выбор место" && (
+            {hotel.tag === "Ogizu pick" && (
               <Sparkles data-icon="inline-start" />
             )}
             {hotel.tag}
@@ -60,7 +57,7 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
         <p className="text-[10px] text-muted-foreground">
           {hotel.destination} · {hotel.category}
         </p>
-        <div className="flex gap-0.5" aria-label={`${hotel.stars} звёзд`}>
+        <div className="flex gap-0.5" aria-label={`${hotel.stars} stars`}>
           {Array.from({ length: hotel.stars }, (_, i) => (
             <Star key={i} className="size-2 fill-current text-foreground/60" />
           ))}
@@ -71,17 +68,17 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
       </h3>
       <div className="mt-2 flex items-center gap-1.5">
         <span className="rating-score">{hotel.score}</span>
-        <span className="text-[10px] font-medium">Превосходно</span>
+        <span className="text-[10px] font-medium">Exceptional</span>
         <span className="text-[10px] text-muted-foreground">
-          · {money(hotel.reviews)} отзывов
+          · {money(hotel.reviews)} reviews
         </span>
       </div>
       <div className="mt-3 flex flex-wrap items-baseline gap-1">
-        <span className="text-[11px] text-muted-foreground">от</span>
+        <span className="text-[11px] text-muted-foreground">from</span>
         <strong className="text-[17px] font-semibold tracking-tight">
           {money(hotel.price)} ₽
         </strong>
-        <span className="text-[11px] text-muted-foreground">/ ночь</span>
+        <span className="text-[11px] text-muted-foreground">/ night</span>
         {hotel.oldPrice && (
           <span className="ml-auto text-[10px] text-muted-foreground line-through">
             {money(hotel.oldPrice)} ₽
